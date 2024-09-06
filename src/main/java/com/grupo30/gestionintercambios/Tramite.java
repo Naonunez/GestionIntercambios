@@ -4,18 +4,18 @@ public class Tramite {
     private String id;
     private String estado;
     private String comentarios;
-    private String fechaFinalizacion;
-    private String estudiante;
-    private String universidad;
+    private String fechaInicio;
+    private Estudiante estudiante;
+    private Convenio convenio;  
     
     
-    public Tramite(String id, String estado, String comentarios, String fechaFinalizacion, String estudiante,String universidad) {
+    public Tramite(String id, String estado, String comentarios, String fechaInicio, Estudiante estudiante, Convenio convenio) {
         this.id = id;
         this.estado = estado;
         this.comentarios = comentarios;
-        this.fechaFinalizacion = fechaFinalizacion;
+        this.fechaInicio = fechaInicio;
         this.estudiante = estudiante;
-        this.universidad = universidad;
+        this.convenio = convenio;
     }
 
     public String getId() {
@@ -42,27 +42,27 @@ public class Tramite {
         this.comentarios = comentarios;
     }
 
-    public String getFechaFinalizacion() {
-        return fechaFinalizacion;
+    public String getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFechaFinalizacion(String fechaFinalizacion) {
-        this.fechaFinalizacion = fechaFinalizacion;
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
-    public String getEstudiante() {
+    public Estudiante getEstudiante() {
         return estudiante;
     }
 
-    public void setEstudiante(String estudiante) {
+    public void setEstudiante(Estudiante estudiante) {
         this.estudiante = estudiante;
     }
 
-    public String getUniversidad() {
-        return universidad;
+    public Convenio getConvenio() {
+        return convenio;
     }
 
-    public void setUniversidad(String universidad) {
-        this.universidad = universidad;
+    public void setConvenio(Convenio convenio) {
+        this.convenio = convenio;
     }
 }
