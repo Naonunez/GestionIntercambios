@@ -64,5 +64,15 @@ public class Convenio {
     public String getfechaFin() {
         return fechaFin;
     }
+    
+    @Override
+    public String toString() {
+    return "Convenio ID: " + id +
+           ", Nombre: " + nombre +
+           ", País: " + pais +
+           ", Universidad: " + universidad +
+           ", Fecha de Inicio: " + fechaInicio +
+           ", Fecha de Fin: " + fechaFin;
+}
 
 }

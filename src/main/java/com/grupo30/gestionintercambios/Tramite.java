@@ -65,4 +65,15 @@ public class Tramite {
     public void setConvenio(Convenio convenio) {
         this.convenio = convenio;
     }
+    
+    @Override
+    public String toString() {
+    return "Tramite ID: " + id +
+           ", Estado: " + estado +
+           ", Comentarios: " + comentarios +
+           ", Fecha de Inicio: " + fechaInicio +
+           ", Estudiante: " + (estudiante != null ? estudiante.getNombre() : "No asignado") +
+           ", Convenio: " + (convenio != null ? convenio.getNombre() : "No asignado");
+}
+
 }

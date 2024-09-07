@@ -12,7 +12,28 @@ public class ControladorDatos {
         estudiantes = new ArrayList<>();
         convenios = new HashMap<>();
         tramites = new HashMap<>();
+        
+        //Datos iniciales estudiante
+        estudiantes.add(new Estudiante("001", "Juan Perez", "Ingenieria de Sistemas"));
+        estudiantes.add(new Estudiante("002", "Maria Gomez", "Derecho"));
+        estudiantes.add(new Estudiante("003", "Carlos Sanchez", "Medicina"));
+        estudiantes.add(new Estudiante("004", "Ana Rodriguez", "Administracion de Empresas"));
+        
+        //Datos iniciales convenio
+        convenios.put("C001", new Convenio("Convenio A", "C001", "España", "Universidad de Barcelona", "01-01-2023", "01-01-2024"));
+        convenios.put("C002", new Convenio("Convenio B", "C002", "Francia", "Universidad de Paris", "05-10-2022", "05-10-2023"));
+        convenios.put("C003", new Convenio("Convenio C", "C003", "Mexico", "Universidad Nacional Autonoma de México", "03-15-2023", "03-15-2024"));
+        convenios.put("C004", new Convenio("Convenio D", "C004", "Colombia", "Universidad de los Andes", "09-01-2022", "09-01-2023"));
+        
+        //Datos iniciales tramites
+        tramites.put("T001", new Tramite("T001", "Pendiente", "Falta completar documentos", "01-15-2024", estudiantes.get(0), convenios.get("C001")));
+        tramites.put("T002", new Tramite("T002", "En proceso", "Revision en curso", "12-10-2023", estudiantes.get(1), convenios.get("C002")));
+        tramites.put("T003", new Tramite("T003", "Finalizado", "Tramite completado con exito", "11-05-2023", estudiantes.get(2), convenios.get("C003")));
+        tramites.put("T004", new Tramite("T004", "Cancelado", "Tramite cancelado por el estudiante", "10-20-2023", estudiantes.get(3), convenios.get("C004")));
+
     }
+    
+    
     
     public void registrarNuevoEstudiante() throws IOException {
         BufferedReader lector = new BufferedReader( new InputStreamReader( System.in ) );
@@ -23,7 +44,7 @@ public class ControladorDatos {
         System.out.print("Ingrese el nombre del estudiante: ");
         String nombre = lector.readLine();
         
-        System.out.print("Ingrese el programa de intercambio: ");
+        System.out.print("Ingrese el programa universitario: ");
         String programa = lector.readLine();
         
         Estudiante estudiante = new Estudiante(id, nombre, programa);
@@ -31,6 +52,7 @@ public class ControladorDatos {
         estudiantes.add(estudiante);
         System.out.println("Estudiante registrado exitosamente.");
     }
+    
     
     public Estudiante buscarEstudiantePorId(String id) {
         for (Estudiante e : estudiantes) {
@@ -54,6 +76,7 @@ public class ControladorDatos {
         System.out.println("Nombre: " + estudiante.getNombre());
         System.out.println("Programa: " + estudiante.getPrograma());
     }
+    
     
     public void mostrarEstudiantes() {
         if (estudiantes.isEmpty()) {
@@ -401,6 +424,15 @@ public class ControladorDatos {
             System.out.println("Tramite no encontrado.");
         }
     }
+    //Sobrecarga de metodo
+    public void actualizarTramID(String id, String nuevoEstado) {
+    Tramite tramite = tramites.get(id);
+    if (tramite != null) {
+        tramite.setEstado(nuevoEstado);
+    } else {
+        System.out.println("Trámite no encontrado.");
+    }
+}
     
     public void agregarCom() throws IOException{
         BufferedReader lector = new BufferedReader( new InputStreamReader( System.in ) );
@@ -431,6 +463,8 @@ public class ControladorDatos {
             System.out.println("Tramite no encontrado.");
         }
     }
+    
+    
     
     public void verTodosTramites(){
         if (tramites.isEmpty()) {

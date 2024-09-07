@@ -34,4 +34,15 @@ public class Estudiante {
         return programa;
     }
     
+    public void actualizarDatos(String nuevoNombre, String nuevoPrograma) {
+        this.nombre = nuevoNombre;
+        this.programa = nuevoPrograma;
+    }
+    
+    public void actualizarDatos(String nuevoNombre, String nuevoPrograma, String nuevoId) {
+        this.nombre = nuevoNombre;
+        this.programa = nuevoPrograma;
+        this.id = nuevoId;
+    }
+    
 }

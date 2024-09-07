@@ -16,7 +16,7 @@ public class Main {
               System.out.println("=== Gestion de Programas de Intercambio Estudiantil ===");
               System.out.println("1. Registrar nuevo estudiante");
               System.out.println("2. Administracion de convenios internacionales");
-              System.out.println("3. Trámites y documentacion");
+              System.out.println("3. Tramites y documentacion");
               System.out.println("4. Mostrar todos los convenios");
               System.out.println("5. Mostrar todos los estudiantes");              
               System.out.println("6. Buscar estudiante por ID o nombre");
