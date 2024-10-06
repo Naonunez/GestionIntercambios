@@ -14,7 +14,7 @@ public class Main {
         
          while (!salir) {
               System.out.println("=== Gestion de Programas de Intercambio Estudiantil ===");
-              System.out.println("1. Registrar nuevo estudiante");
+              System.out.println("1. Gestionar estudiantes");
               System.out.println("2. Administracion de convenios internacionales");
               System.out.println("3. Tramites y documentacion");
               System.out.println("4. Mostrar todos los convenios");
@@ -28,7 +28,7 @@ public class Main {
               
               switch (opcion) {
                   case "1":
-                      control.registrarNuevoEstudiante();
+                      control.gestionEstudiantes();
                       break;
                   case "2":
                       control.administrarConvenios();

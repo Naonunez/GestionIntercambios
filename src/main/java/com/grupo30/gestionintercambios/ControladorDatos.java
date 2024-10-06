@@ -34,7 +34,73 @@ public class ControladorDatos {
     }
     
     
-    
+    public void gestionEstudiantes()throws IOException{
+        boolean salir = false;
+        BufferedReader lector = new BufferedReader( new InputStreamReader( System.in ) );
+        String opcion;
+        
+  
+        while (!salir) {
+            System.out.println("=== Gestion estudiantes ===");
+            System.out.println("1. Registrar nuevo estudiante");
+            System.out.println("2. Actualizar nombre y programa");
+            System.out.println("3. Actualizar todos los datos del estudiante");
+            System.out.println("4.Volver");
+            System.out.print("Seleccione una opcion: ");
+            opcion = lector.readLine();
+            
+            switch (opcion) {
+                case "1":
+                    registrarNuevoEstudiante();
+                    break;
+                case "2":
+                    System.out.print("Ingrese el ID del estudiante a actualizar: ");
+                    String id = lector.readLine();
+                    Estudiante estudiante = buscarEstudiantePorId(id);
+                    
+                    if (estudiante != null) {
+                    System.out.print("Ingrese el nuevo nombre: ");
+                    String nuevoNombre = lector.readLine();
+
+                    System.out.print("Ingrese el nuevo programa: ");
+                    String nuevoPrograma = lector.readLine();
+                    
+                    estudiante.actualizarDatos(nuevoNombre, nuevoPrograma);
+                    System.out.println("Datos del estudiante actualizados correctamente.");
+                    } else {
+                        System.out.println("Estudiante no encontrado.");
+                    }
+                    break;
+                case "3":
+                    System.out.print("Ingrese el ID del estudiante a actualizar: ");
+                    String Id = lector.readLine();
+                    Estudiante estudianteId = buscarEstudiantePorId(Id);
+                    
+                    if (estudianteId != null) {
+                    System.out.print("Ingrese el nuevo nombre: ");
+                    String nuevoNombre = lector.readLine();
+
+                    System.out.print("Ingrese el nuevo programa: ");
+                    String nuevoPrograma = lector.readLine();
+                    
+                    System.out.print("Ingrese el nuevo Id: ");
+                    String nuevoId = lector.readLine();
+                    
+                    estudianteId.actualizarDatos(nuevoNombre, nuevoPrograma, nuevoId);
+                    System.out.println("Datos del estudiante actualizados correctamente.");
+                    } else {
+                        System.out.println("Estudiante no encontrado.");
+                    }
+                    
+                    break;
+                case "4":
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("Opcion invalida. Intente nuevamente.");
+            }
+        }
+    }
     public void registrarNuevoEstudiante() throws IOException {
         BufferedReader lector = new BufferedReader( new InputStreamReader( System.in ) );
         
@@ -366,63 +432,64 @@ public class ControladorDatos {
         
     }
     public void crearTramite() throws IOException{
-        BufferedReader lector = new BufferedReader( new InputStreamReader( System.in ) );
+        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Ingrese el ID del tramite: ");
         String id = lector.readLine();
-        
+
         if (tramites.containsKey(id)) {
-        System.out.println("Ya existe un tramite con ese ID.");
-        return;
+            System.out.println("Ya existe un tramite con ese ID.");
+            return;
         }
-        
+
         System.out.print("Ingrese el estado del tramite: ");
         String estado = lector.readLine();
-        
+
         System.out.print("Ingrese los comentarios del tramite: ");
         String comentarios = lector.readLine();
-        
+
         System.out.print("Ingrese la fecha de inicio (DD-MM-YYYY): ");
         String fechaInicio = lector.readLine();
-        
+
         System.out.print("Ingrese el ID del estudiante: ");
         String idEstudiante = lector.readLine();
         Estudiante estudiante = buscarEstudiantePorId(idEstudiante);
-        
+
         if (estudiante == null) {
             System.out.println("Estudiante no encontrado.");
             return;
         }
-        
+
         System.out.print("Ingrese el ID del convenio: ");
         String idConvenio = lector.readLine();
         Convenio convenio = buscarConvenioPorId(idConvenio);
-        
+
         if (convenio == null) {
-        System.out.println("Convenio no encontrado.");
-        return;
+            System.out.println("Convenio no encontrado.");
+            return;
         }
-        
+
         Tramite nuevoTramite = new Tramite(id, estado, comentarios, fechaInicio, estudiante, convenio);
         tramites.put(id, nuevoTramite);
+
+        convenio.agregarEstudiante(estudiante);
+
         System.out.println("Tramite creado exitosamente.");
-        
-        
-    }
-    public void actualizarTramID() throws IOException {
-        BufferedReader lector = new BufferedReader( new InputStreamReader( System.in ) );
-        System.out.print("Ingrese el id del tramite a actualizar: ");
-        String id = lector.readLine();
-        
-        System.out.print("Ingrese el nuevo estado del tramite a actualizar: ");
-        String nuevoEstado = lector.readLine();
-        
-        Tramite tramite = tramites.get(id);
-        if (tramite != null) {
-            tramite.setEstado(nuevoEstado);
-            System.out.println("Estado actualizado correctamente.");
-        } else {
-            System.out.println("Tramite no encontrado.");
         }
+        public void actualizarTramID() throws IOException {
+            BufferedReader lector = new BufferedReader( new InputStreamReader( System.in ) );
+            System.out.print("Ingrese el id del tramite a actualizar: ");
+            String id = lector.readLine();
+
+            System.out.print("Ingrese el nuevo estado del tramite a actualizar: ");
+            String nuevoEstado = lector.readLine();
+
+            Tramite tramite = tramites.get(id);
+            if (tramite != null) {
+                tramite.setEstado(nuevoEstado);
+                System.out.println("Estado actualizado correctamente.");
+            } else {
+                System.out.println("Tramite no encontrado.");
+            }
     }
     //Sobrecarga de metodo
     public void actualizarTramID(String id, String nuevoEstado) {

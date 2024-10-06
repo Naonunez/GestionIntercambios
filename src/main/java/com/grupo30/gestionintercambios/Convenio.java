@@ -1,5 +1,8 @@
 package com.grupo30.gestionintercambios;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Convenio {
     private String nombre;
     private String pais;
@@ -7,6 +10,7 @@ public class Convenio {
     private String fechaInicio;
     private String fechaFin;
     private String id;
+    private List<Estudiante> estudiantes;
     
 
     public Convenio(String nombre, String id,String pais, String universidad, String fechaInicio, String fechaFin) {
@@ -16,6 +20,7 @@ public class Convenio {
         this.universidad = universidad;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        estudiantes = new ArrayList<>();
     }
     
     public void setNombre(String nombre){
@@ -63,6 +68,16 @@ public class Convenio {
     
     public String getfechaFin() {
         return fechaFin;
+    }
+    public void agregarEstudiante(Estudiante estudiante) {
+        estudiantes.add(estudiante);
+    }
+    public void eliminarEstudiante(Estudiante estudiante) {
+        estudiantes.remove(estudiante);
+    }
+
+    public List<Estudiante> getEstudiantes() {
+        return estudiantes;
     }
     
     @Override
