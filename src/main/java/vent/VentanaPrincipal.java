@@ -185,6 +185,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 ventanaGestE.setVisible(true);
                 ventanaGestE.setLocationRelativeTo(null);
                 break;
+            //case 2:
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
