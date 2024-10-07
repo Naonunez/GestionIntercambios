@@ -1,10 +1,27 @@
 package com.grupo30.gestionintercambios;
 import java.io.* ;
+import vent.VentanaPrincipal;
 public class Main {
 
     public static void main(String[] args) throws IOException {
         ControladorDatos control = new ControladorDatos();
+        
+        VentanaPrincipal ventana = new VentanaPrincipal();
+        ventana.setVisible(true);
+        ventana.setLocationRelativeTo(null);
+ 
+        
+        control.cargarDatosEst();  
+        control.cargarDatosConvenio();    
+        control.cargarDatosTramite();
+        
         mostrarMenuPrincipal(control);
+        
+        control.guardarDatosEst();
+        control.guardarConvenios();
+        control.guardarTramites();
+        
+        System.out.println("Datos guardados correctamente. Saliendo de la aplicacion.");
     }
     
     public static void mostrarMenuPrincipal(ControladorDatos control) throws IOException{

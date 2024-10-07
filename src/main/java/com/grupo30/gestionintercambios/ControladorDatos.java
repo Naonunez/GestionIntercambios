@@ -3,9 +3,14 @@ import java.io.* ;
 import java.util.*;
 
 public class ControladorDatos {
-    private List<Estudiante> estudiantes;
-    private Map<String, Convenio>  convenios;
-    private Map<String, Tramite> tramites;
+    public List<Estudiante> estudiantes;
+    public Map<String, Convenio>  convenios;
+    public Map<String, Tramite> tramites;
+    private final String archivoEst = "estudiantes.txt";
+    private final String archivoConvenios = "convenios.txt";
+    private final String archivoTramites = "tramites.txt";
+    
+    
         
     
     public ControladorDatos() {
@@ -614,4 +619,158 @@ public class ControladorDatos {
             System.out.println("Tramite no encontrado.");
         }
     }
+    
+    public void cargarDatosEst() {
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoEst))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 3) {
+                    String id = datos[0];
+                    String nombre = datos[1];
+                    String programa = datos[2];
+                    estudiantes.add(new Estudiante(id, nombre, programa));
+                }
+            }
+            System.out.println("Datos cargados correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
+    
+    public void guardarDatosEst() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoEst))) {
+            for (Estudiante estudiante : estudiantes) {
+                bw.write(estudiante.toString());
+                bw.newLine();
+            }
+            System.out.println("Datos guardados correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
+    
+    public void cargarDatosConvenio() {
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoConvenios))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 7) {
+                    String id = datos[0];
+                    String nombre = datos[1];
+                    String pais = datos[2];
+                    String universidad = datos[3];
+                    String fechaInicio = datos[4];
+                    String fechaFin = datos[5];
+                    
+                    List<Estudiante> estudiantesAsociados = obtenerEstudiantesDeConvenio(datos[6]);
+
+                    Convenio convenio = new Convenio(nombre, id, pais, universidad, fechaInicio, fechaFin);
+
+                    for (Estudiante estudiante : estudiantesAsociados) {
+                        convenio.agregarEstudiante(estudiante);
+                    }
+
+                    convenios.put(id, convenio);
+                }
+            }
+            System.out.println("Convenios cargados correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo de convenios: " + e.getMessage());
+        }
+    }
+
+    private List<Estudiante> obtenerEstudiantesDeConvenio(String listaIdsEstudiantes) {
+        List<Estudiante> listaEstudiantes = new ArrayList<>();
+        String[] ids = listaIdsEstudiantes.split(";"); // Separar los IDs por ";"
+
+        // Buscar los estudiantes por su ID en la lista de estudiantes global
+        for (String id : ids) {
+            for (Estudiante estudiante : estudiantes) {
+                if (String.valueOf(estudiante.getId()).equals(id)) {
+                    listaEstudiantes.add(estudiante);
+                }
+            }
+        }
+        return listaEstudiantes;
+    }
+    
+    public void guardarConvenios() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoConvenios))) {
+            for (Map.Entry<String, Convenio> entry : convenios.entrySet()) {
+                Convenio convenio = entry.getValue();
+
+                StringBuilder sbEstudiantes = new StringBuilder();
+                for (Estudiante estudiante : convenio.getEstudiantes()) {
+                    if (sbEstudiantes.length() > 0) {
+                        sbEstudiantes.append(";"); 
+                    }
+                    sbEstudiantes.append(estudiante.getId());  
+                }
+
+                
+                bw.write(convenio.getId() + "," +
+                         convenio.getNombre() + "," +
+                         convenio.getPais() + "," +
+                         convenio.getUniversidad() + "," +
+                         convenio.getfechaInicio() + "," +
+                         convenio.getfechaFin() + "," +
+                         sbEstudiantes.toString()); 
+
+                bw.newLine();  
+            }
+            System.out.println("Convenios guardados correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al guardar los convenios: " + e.getMessage());
+        }
+    }
+    
+    public void cargarDatosTramite() {
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoTramites))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 6) {
+                    String id = datos[0];
+                    String estado = datos[1];
+                    String comentarios = datos[2];
+                    String fechaInicio = datos[3];
+                    String idEstudiante = datos[4];
+                    String idConvenio = datos[5];
+
+                    Estudiante estudiante = buscarEstudiantePorId(idEstudiante);
+
+                    Convenio convenio = convenios.get(idConvenio);
+
+                    Tramite tramite = new Tramite(id, estado, comentarios, fechaInicio, estudiante, convenio);
+                    
+                    tramites.put(id, tramite);
+                }
+            }
+            System.out.println("Trámites cargados correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo de trámites: " + e.getMessage());
+        }
+    }
+    
+    public void guardarTramites() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoTramites))) {
+            for (Map.Entry<String, Tramite> entry : tramites.entrySet()) {
+                Tramite tramite = entry.getValue();
+
+                bw.write(tramite.getId() + "," +
+                         tramite.getEstado() + "," +
+                         tramite.getComentarios() + "," +
+                         tramite.getFechaInicio() + "," +
+                         tramite.getEstudiante().getId() + "," + 
+                         tramite.getConvenio().getId());         
+
+                bw.newLine(); 
+            }
+            System.out.println("Trámites guardados correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al guardar los trámites: " + e.getMessage());
+        }
+    }
+
 }
